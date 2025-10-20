@@ -1,0 +1,36 @@
+$primary-color: #CF8455;
+$secondary-color: #b8734a;
+$background-dark: #110F0E;
+$text-light: #fff;
+$text-gray: #ccc;
+$font-main: 'Gilroy', 'Arial', sans-serif;
+
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-large: 1440px;
+$breakpoint-320: 320px;
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: #{$breakpoint-mobile}) {
+      @content;
+    }
+  } @else if $breakpoint == tablet {
+    @media (max-width: #{$breakpoint-tablet}) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (max-width: #{$breakpoint-desktop}) {
+      @content;
+    }
+  } @else if $breakpoint == large {
+    @media (min-width: #{$breakpoint-large}) {
+      @content;
+    }
+  } @else if $breakpoint == 320 {
+    @media (max-width: #{$breakpoint-320}) {
+      @content;
+    }
+  }
+}

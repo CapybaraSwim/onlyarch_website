@@ -1,0 +1,156 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  background-color: $background-dark;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+}
+
+.sectionTitle {
+  color: $text-light;
+  font-size: 40px;
+  font-weight: 500;
+  text-align: center;
+  margin: 100px 0px 100px 0px;
+  font-family: 'Gilroy', sans-serif;
+
+  @include respond-to(mobile) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.advantageBlock {
+  position: relative;
+  width: 100%;
+  max-width: 1140px;
+  height: 256px;
+  border-radius: 428px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  gap: 0;
+  margin-bottom: 50px; /* ⬅️ Отступ между блоками */
+
+  &:last-child {
+    margin-bottom: 0; /* Убрать отступ у последнего блока */
+  }
+
+  @include respond-to(mobile) {
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+    border-radius: 356px;
+    margin-bottom: 30px; /* Меньше на мобильных */
+  }
+
+  &.swapped {
+    flex-direction: row-reverse;
+  }
+}
+
+.bgLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.textSection {
+  flex: 1;
+  padding: 30px 50px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 2;
+
+  h3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 13px;
+    font-family: 'Gilroy', sans-serif;
+
+    @include respond-to(mobile) {
+      font-size: 20px;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin: 0;
+    font-family: 'Idealist Sans', sans-serif;
+    font-weight: 400;
+
+    @include respond-to(mobile) {
+      font-size: 15px;
+    }
+  }
+
+  @include respond-to(mobile) {
+    padding: 20px;
+  }
+}
+
+.imageSection {
+  width: 518px;
+  height: 100%;
+  background-color: white;
+  border-radius: 428px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+
+  @include respond-to(mobile) {
+    width: 100%;
+    height: 200px;
+    border-radius: 356px;
+    margin-top: 20px;
+  }
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.imageContainer img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.absoluteImageLeft,
+.absoluteImageRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 140px;
+  max-height: 140px;
+  pointer-events: none;
+}
+
+.absoluteImageLeft {
+  left: 17%;
+}
+
+.absoluteImageRight {
+  right: 17%;
+}

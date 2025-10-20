@@ -1,0 +1,121 @@
+@use '../../styles/variables.scss' as *;
+
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 10%;
+
+  color: $text-light;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.66);
+    z-index: 1;
+  }
+
+  @include respond-to(tablet) {
+    padding: 0 6%;
+  }
+
+  @include respond-to(mobile) {
+    padding: 0 4%;
+    text-align: center;
+    align-items: center;
+  }
+
+  @include respond-to(320) {
+    padding: 0 3%;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 660px;
+
+  h1 {
+    font-size: 96px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    line-height: 1.1;
+    font-family: 'Gilroy', $font-main;
+    color: $text-light;
+
+    @include respond-to(tablet) {
+      font-size: 72px;
+    }
+
+    @include respond-to(mobile) {
+      font-size: 48px;
+    }
+
+    @include respond-to(320) {
+      font-size: 36px;
+    }
+  }
+
+  p {
+    letter-spacing: 0%;
+    line-height: 100%;
+    font-size: 20px;
+    margin-bottom: 5rem;
+    max-width: 660px;
+    font-family: 'Idealist Sans', $font-main;
+    font-weight: 400;
+    color: #A8A19E;
+
+    @include respond-to(mobile) {
+      font-size: 18px;
+      margin-bottom: 1.5rem;
+    }
+
+    @include respond-to(320) {
+      font-size: 16px;
+    }
+  }
+}
+
+.button {
+  background: linear-gradient(90deg, #9D6440 100%, #B28D74 0%);
+  color: $text-light;
+  border: none;
+  padding: 6px 20px;
+  border-radius: 60px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  font-family: 'Gilroy', $font-main;
+  font-weight: 400;
+  box-shadow: 0 1px 12.5px 4px rgba(207, 132, 85, 0.5);
+
+  &:hover {
+    color: #110F0E;
+    box-shadow: 0 2px 15px 5px rgba(207, 132, 85, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+
+  @include respond-to(mobile) {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  @include respond-to(320) {
+    font-size: 0.85rem;
+    padding: 10px 20px;
+  }
+}

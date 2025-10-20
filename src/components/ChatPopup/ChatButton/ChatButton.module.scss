@@ -1,0 +1,33 @@
+@use '../../../styles/variables.scss' as *;
+
+.chatButton {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2999;
+  transition: transform 0.2s, background 0.2s;
+
+  /* Линейный градиент */
+  background: linear-gradient(135deg, #86624C, #B28D74);
+
+  /* Тень — имитация Drop Shadow */
+  box-shadow: 0 0 15px 1px #B28D74;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .chatIcon {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+}

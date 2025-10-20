@@ -1,0 +1,179 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.sectionTitle {
+  font-size: 40px;
+  font-weight: 500;
+  text-align: center;
+  margin: 60px 0;
+  font-family: "Gilroy", sans-serif;
+  color: #110F0E;
+  background-color: #fff;
+
+  @include respond-to(mobile) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.categoriesContainer {
+  width: 100%;
+  max-width: 1140px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.categoriesList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+  background-color: #fff;
+  @include respond-to(mobile) {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+
+.categoryItem {
+  position: relative;
+  display: inline-block;
+}
+
+.categoryButton {
+  padding: 12px 24px;
+  border-radius: 50px;
+  border: none;
+  background: transparent;
+  color: #110F0E;
+  font-family: "Gilroy", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.5s ease;
+
+  &:hover {
+    background: #110F0E;
+    color: white;
+  }
+
+  &.active {
+    background: linear-gradient(90deg, #110F0E 0%, #353434 100%);
+    color: white;
+  }
+
+  @include respond-to(mobile) {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+// Грид — на всю ширину, без отступов
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  width: 100%;
+  margin-top: 20px;
+
+  @include respond-to(mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.projectItem {
+  position: relative;
+  overflow: hidden;
+  height: 471px;
+
+  &:hover .projectImage {
+    transform: scale(1.02);
+  }
+
+  &:hover .overlay {
+    opacity: 1;
+  }
+
+  &:hover .text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  transform-origin: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+}
+
+.text {
+  text-transform: uppercase;
+  color: white;
+  font-size: 32px;
+  font-weight: 300;
+  text-align: center;
+  font-family: 'Gilroy', sans-serif;
+  letter-spacing: 0%;
+  line-height: 100%;
+  padding: 20px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.seeMoreButton {
+  margin-top: 30px;
+  padding: 12px 24px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #110F0E 0%, #353434 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  @include respond-to(mobile) {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

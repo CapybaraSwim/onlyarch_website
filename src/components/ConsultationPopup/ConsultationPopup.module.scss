@@ -1,0 +1,287 @@
+@use '../../styles/variables.scss' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 2rem;
+  transition: opacity 0.3s ease-out;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.popupContainer {
+  position: relative;
+  max-width: 700px;
+  max-height: 830px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.3s ease-out;
+
+  &.open {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @include respond-to(mobile) {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: #110F0E;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+
+  .closeButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .closeIcon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+  }
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+}
+
+.formSection {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  @include respond-to(mobile) {
+    padding: 1rem;
+  }
+}
+
+.formContainer {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+  align-items: center;
+
+  @include respond-to(mobile) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.formFields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-left: 20px;
+
+  @include respond-to(mobile) {
+    padding: 0 20px;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  input {
+    max-width: 300px;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #110F0E;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    outline: none;
+    transition: border-bottom 0.3s ease;
+    font-family: "Idealist Sans", sans-serif;
+
+    &:focus {
+      border-bottom: 1px solid #110F0E;
+    }
+
+    @include respond-to(mobile) {
+      font-size: 14px;
+      max-width: 100%;
+    }
+  }
+}
+
+.submitButton {
+  padding: 12px 24px;
+  max-width: 200px;
+  border: none;
+  background: linear-gradient(90deg, #000000 0%, #666666 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: none;
+  margin-top: 50px;
+
+  @include respond-to(mobile) {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-top: 30px;
+  }
+}
+.successMessage {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2e7d32;
+  margin-top: 50px;
+  text-align: center;
+  font-family: "Gilroy", sans-serif;
+
+  @include respond-to(mobile) {
+    font-size: 16px;
+    margin-top: 30px;
+  }
+}
+.phoneImage {
+  width: 307px;
+  height: 100%;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+    // Градиент слева — осветление
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%);
+      pointer-events: none;
+    }
+
+    // Белые тени поверх
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: url('../../assets/images/background-pattern.png') repeat;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+  }
+}
+
+.footer {
+  padding: 1rem 2rem;
+  background-color: #110F0E;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 1px solid #ddd;
+  color:#fff;
+  @include respond-to(mobile) {
+    padding: 1rem;
+  }
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #fff;
+  font-family: "Idealist Sans", sans-serif;
+  font-weight: 400;
+
+  input[type="checkbox"] {
+    width: 47px;
+    height: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #333;
+    border: 1px solid #888;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+
+    &:checked {
+      background-color: #fff;
+      border-color: #fff;
+
+      &::after {
+        content: '✓';
+        display: block;
+        color: #110F0E;
+        font-size: 12px;
+        text-align: center;
+        line-height: 1;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-weight: bold;
+      }
+    }
+
+    &:focus {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+  }
+
+  span {
+    line-height: 1.4;
+    max-width: 100%;
+
+    @include respond-to(mobile) {
+      font-size: 12px;
+    }
+  }
+}

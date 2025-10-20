@@ -1,0 +1,9 @@
+.app {
+  .hero-wrapper {
+    padding-top: 80px;
+
+    @include respond-to(tablet) {
+      padding-top: 60px;
+    }
+  }
+}

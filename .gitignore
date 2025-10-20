@@ -1,0 +1,28 @@
+# зависимости
+node_modules/
+
+# сборка
+/build
+/dist
+/out
+/.next
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# локальные настройки
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# macOS
+.DS_Store
