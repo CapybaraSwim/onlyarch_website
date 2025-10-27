@@ -18,8 +18,20 @@ const ConsultationPopup = React.lazy(() => import('./components/ConsultationPopu
 const App: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
+  const [selectedTariff, setSelectedTariff] = useState<string | null>(null);
 
   const openConsultation = () => setIsConsultationOpen(true);
+  const handleOpenConsultation = (tariffName?: string) => {
+    if (tariffName) {
+      setSelectedTariff(tariffName);
+    }
+    setIsConsultationOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsConsultationOpen(false);
+    setSelectedTariff(null);
+  };
 
   return (
     <div className="App">
@@ -29,7 +41,7 @@ const App: React.FC = () => {
       <Advantages />
       <OurWorks />
       <CostCalculation />
-      <Pricing onOpenConsultation={openConsultation} />
+      <Pricing onOpenConsultation={handleOpenConsultation} />
       <OurTeam />
       <TrustUs />
       <MapBlock />
@@ -41,6 +53,7 @@ const App: React.FC = () => {
       <ConsultationPopup
         isOpen={isConsultationOpen}
         onClose={() => setIsConsultationOpen(false)}
+        selectedTariff={selectedTariff}
       />
     </div>
   );

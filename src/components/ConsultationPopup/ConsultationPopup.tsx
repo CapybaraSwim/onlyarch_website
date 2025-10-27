@@ -8,11 +8,12 @@ import phoneImage from '../../assets/images/popup.png';
 interface ConsultationPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedTariff?: string | null;
 }
 
-const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose }) => {
+const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, selectedTariff  }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false); // ← новое состояние
+  const [shouldRender, setShouldRender] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -52,7 +53,16 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose }
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-
+      
+      // Подготовка данных для API
+      const submissionData = {
+        ...formData,
+        tariff: selectedTariff || null,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log('Данные для отправки:', submissionData);
+      
       const closeTimer = setTimeout(() => {
         onClose();
       }, 2000);
@@ -82,6 +92,11 @@ if (!shouldRender) return null;
         </div>
 
         <div className={styles.mainContent}>
+          {selectedTariff && (
+            <div className={styles.selectedTariff}>
+              <h3>Выбран тариф: {selectedTariff}</h3>
+            </div>
+          )}
           <div className={styles.formSection}>
             <form className={styles.formContainer} onSubmit={handleSubmit}>
               <div className={styles.formFields}>

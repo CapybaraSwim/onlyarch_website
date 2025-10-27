@@ -1,15 +1,15 @@
 @use '../../styles/variables.scss' as *;
 
 .whyWe {
-  padding: 8rem 10%;
+  padding: 10% 13%;
   color: $text-light;
 
   @include respond-to(tablet) {
-    padding: 6rem 6%;
+    padding: 5% 5%;
   }
 
   @include respond-to(mobile) {
-    padding: 4rem 4%;
+    padding: 10% 10%;
   }
 
   @include respond-to(320) {
@@ -67,23 +67,54 @@
   }
 }
 
+
 .image {
   flex: 0 0 30%;
-  max-height: 430px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   img {
-    width: 100%;
-    height: calc(100% - 50px);
-    object-fit: cover;
+    width: 100%; // ширина = ширине контейнера
+    height: 100%; // высота = высоте контейнера
+    object-fit: cover; // обрезает края, чтобы заполнить всю область без деформации
     object-position: center;
     border-radius: 0;
 
     @include respond-to(tablet) {
       width: 100%;
       height: auto;
+    }
+  }
+
+
+  .designerTitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Gilroy', $font-main;
+    color: #110F0E;
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    margin-top: -1px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top:20px;
+
+    @include respond-to(tablet) {
+      font-size: 1.2rem;
+      padding: 0.8rem 0;
+    }
+
+    @include respond-to(mobile) {
+      font-size: 1rem;
+      padding: 0.6rem 0;
+    }
+
+    @include respond-to(320) {
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
     }
   }
 }
@@ -119,11 +150,11 @@
 }
 
 .stats {
-  flex: 0 0 20%;
-  max-height: 490px; /* ← ограничиваем высоту */
+  flex: 0 0 20%; // ширина фиксирована
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: transparent; // ← убираем фон, если нужен только внутри статов
 
   .stat {
     background-color: #fff;
@@ -210,14 +241,12 @@
 }
 
 .text {
-  background-color: #fff;
-  flex: 1;
-  max-width: 393px;
+  flex: 1; // ← растягивается на оставшееся пространство
   padding: 1.5rem;
-  max-height: 490px; /* ← ограничиваем высоту */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: #fff;
 
   h3 {
     font-size: 1.6rem;

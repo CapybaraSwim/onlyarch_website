@@ -1,4 +1,5 @@
-import React from 'react';
+// src/components/Pricing/Pricing.tsx
+import React, { useState } from 'react';
 const styles = require('./Pricing.module.scss');
 
 import planImage from '../../assets/images/pricing/plan.png';
@@ -6,7 +7,7 @@ import technicalImage from '../../assets/images/pricing/technical.png';
 import fullImage from '../../assets/images/pricing/full.png';
 
 interface PricingProps {
-  onOpenConsultation: () => void;
+  onOpenConsultation: (tariffName: string) => void;
 }
 
 const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
@@ -22,7 +23,10 @@ const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
             <div className={styles.content}>
               <h3>Тариф “Планировочный”</h3>
               <p>500 руб/м²</p>
-              <button className={styles.buttonFirst} onClick={onOpenConsultation}>
+              <button 
+                className={styles.buttonFirst} 
+                onClick={() => onOpenConsultation('Планировочный')}
+              >
                 Заказать проект
               </button>
             </div>
@@ -47,7 +51,9 @@ const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
             <div className={styles.content}>
               <h3>Тариф <br/> “Технический”</h3>
               <p>1800 руб/м²</p>
-              <button onClick={onOpenConsultation}>Заказать проект</button>
+              <button onClick={() => onOpenConsultation('Технический')}>
+                Заказать проект
+              </button>
             </div>
           </div>
           <div className={styles.largeBlock}>
@@ -91,7 +97,9 @@ const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
             <div className={styles.content}>
               <h3>Тариф <br/> “Полный”</h3>
               <p>2500 руб/м²</p>
-              <button onClick={onOpenConsultation}>Заказать проект</button>
+              <button onClick={() => onOpenConsultation('Полный')}>
+                Заказать проект
+              </button>
             </div>
           </div>
         </div>

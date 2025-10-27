@@ -40,6 +40,10 @@ const CostCalculation: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+
    const services = [
     { id: 'interior', title: 'Дизайн интерьера', image: interiorImage },
     { id: 'architecture', title: 'Архитектурный проект', image: architectureImage },
@@ -78,6 +82,15 @@ const CostCalculation: React.FC = () => {
     { id: 'wabiSabi', title: 'Ваби-Саби', image: wabiSabiImage },
     { id: 'boho', title: 'Бохо', image: bohoImage },
   ];
+  const isValidEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+  const isValidPhone = (phone: string) => {
+    return phone.replace(/\D/g, '').length >= 10;
+  };
+  const getSelectedTitle = (id: string | null, list: { id: string; title: string }[]) => {
+    return list.find(item => item.id === id)?.title || '';
+  };
 
   const handleAreaSelect = (id: string) => {
     setSelectedArea(id);
@@ -152,6 +165,26 @@ const CostCalculation: React.FC = () => {
         setSelectedArea(null);
       }
     }
+  };
+
+  const handleSubmit = () => {
+    // Подготовка данных для API
+    const formData = {
+      service: selectedService ? getSelectedTitle(selectedService, services) : null,
+      area: selectedService === 'landscape' 
+        ? getSelectedTitle(selectedLandArea, landAreas)
+        : getSelectedTitle(selectedArea, areas),
+      material: selectedMaterial ? getSelectedTitle(selectedMaterial, materials) : null,
+      style: selectedStyle ? getSelectedTitle(selectedStyle, stylesList) : null,
+      name,
+      email,
+      phone
+    };
+    
+    console.log('Данные для отправки:', formData);
+    // Здесь будет вызов API: fetch('/api/calculate', { method: 'POST', body: JSON.stringify(formData) })
+    
+    // Можно добавить успешное сообщение или редирект
   };
 
   return (
@@ -363,27 +396,70 @@ const CostCalculation: React.FC = () => {
         {step === 'step4' && (
           <>
             <h3 className={styles.stepTitle}>Мы свяжемся с вами и скажем цену</h3>
+
+            <div className={styles.userSelection}>
+              <h4>Ваш выбор:</h4>
+              <div className={styles.selectionRow}>
+                {selectedService && (
+                  <span className={styles.selectionItem}>
+                    <strong>Услуга:</strong> {getSelectedTitle(selectedService, services)}
+                  </span>
+                )}
+                {(selectedArea || selectedLandArea) && (
+                  <span className={styles.selectionItem}>
+                    <strong>Площадь:</strong> {selectedService === 'landscape' 
+                      ? getSelectedTitle(selectedLandArea, landAreas)
+                      : getSelectedTitle(selectedArea, areas)}
+                  </span>
+                )}
+                {selectedMaterial && (
+                  <span className={styles.selectionItem}>
+                    <strong>Материал:</strong> {getSelectedTitle(selectedMaterial, materials)}
+                  </span>
+                )}
+                {selectedStyle && (
+                  <span className={styles.selectionItem}>
+                    <strong>Стиль:</strong> {getSelectedTitle(selectedStyle, stylesList)}
+                  </span>
+                )}
+              </div>
+            </div>
+
             <div className={styles.formContainer}>
               <div className={styles.formFields}>
                 <div className={styles.formGroup}>
-                  <input type="text" placeholder="Ваше Имя" />
+                  <input 
+                    type="text" 
+                    placeholder="Ваше Имя" 
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
                 </div>
                 <div className={styles.formGroup}>
-                  <input type="email" placeholder="Ваш E-mail" />
+                  <input 
+                    type="email" 
+                    placeholder="Ваш E-mail" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className={styles.formGroup}>
-                  <input type="tel" placeholder="+7 (___) ___ __ __" />
+                  <input 
+                    type="tel" 
+                    placeholder="+7 (___) ___ __ __" 
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
                 </div>
                 <motion.button
                   className={styles.submitButton}
-                  initial={{ opacity: 0.5 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
+                  onClick={handleSubmit}
+                  disabled={!name || !isValidEmail(email) || !isValidPhone(phone)}
                 >
                   Получить расчет
                 </motion.button>
                 <p className={styles.agreementText}>
-                    Нажимая на кнопку "Получить расчет", я даю свое согласие на обработку персональных данных и принимаю условия соглашения
+                  Нажимая на кнопку "Получить расчет", я даю свое согласие на обработку персональных данных и принимаю условия соглашения
                 </p>
               </div>
               <div className={styles.phoneImage}>
