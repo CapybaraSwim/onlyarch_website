@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 const styles = require('./Advantages.module.scss');
 
-const AdvantageItem: React.FC<{
+interface AdvantageItemProps {
   leftText: string;
   rightText: string;
   leftDescription: string;
@@ -11,7 +11,13 @@ const AdvantageItem: React.FC<{
   rightImage: string;
   leftGradient: string;
   rightGradient: string;
-}> = ({
+  mobileLeftText?: string;
+  mobileRightText?: string;
+  mobileLeftDescription?: string;
+  mobileRightDescription?: string;
+}
+
+const AdvantageItem: React.FC<AdvantageItemProps> = ({
   leftText,
   rightText,
   leftDescription,
@@ -20,12 +26,45 @@ const AdvantageItem: React.FC<{
   rightImage,
   leftGradient,
   rightGradient,
+  mobileLeftText,
+  mobileRightText,
+  mobileLeftDescription,
+  mobileRightDescription,
 }) => {
   const [isSwapped, setIsSwapped] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const clickLockRef = useRef(false);
 
-  const handleHover = () => {
+  // Определяем, мобильное ли устройство
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 762);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Единая функция переключения с защитой от дублей
+  const toggleSwapped = () => {
+    if (clickLockRef.current) return;
+    clickLockRef.current = true;
     setIsSwapped((prev) => !prev);
+    // Разблокируем через 300 мс (стандартная задержка touch → click)
+    setTimeout(() => {
+      clickLockRef.current = false;
+    }, 300);
   };
+
+  // Тексты для отображения (мобильные или основные)
+  const displayLeftText = isMobile && mobileLeftText ? mobileLeftText : leftText;
+  const displayRightText = isMobile && mobileRightText ? mobileRightText : rightText;
+  const displayLeftDescription = isMobile && mobileLeftDescription
+    ? mobileLeftDescription
+    : leftDescription;
+  const displayRightDescription = isMobile && mobileRightDescription
+    ? mobileRightDescription
+    : rightDescription;
 
   return (
     <motion.div
@@ -37,7 +76,7 @@ const AdvantageItem: React.FC<{
         damping: 10,
       }}
     >
-
+      {/* Фоновые градиенты */}
       <motion.div
         className={styles.bgLayer}
         animate={{ opacity: isSwapped ? 0 : 1 }}
@@ -51,6 +90,7 @@ const AdvantageItem: React.FC<{
         style={{ background: rightGradient }}
       />
 
+      {/* Иконки */}
       <motion.img
         src={leftImage}
         alt={leftText}
@@ -62,7 +102,6 @@ const AdvantageItem: React.FC<{
           zIndex: isSwapped ? 1 : 3,
         }}
       />
-
       <motion.img
         src={rightImage}
         alt={rightText}
@@ -75,6 +114,7 @@ const AdvantageItem: React.FC<{
         }}
       />
 
+      {/* Текстовая секция */}
       <motion.div
         key={isSwapped ? 'swapped' : 'default'}
         className={styles.textSection}
@@ -83,14 +123,29 @@ const AdvantageItem: React.FC<{
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h3>{isSwapped ? rightText : leftText}</h3>
-        <p>{isSwapped ? rightDescription : leftDescription}</p>
+        <h3>{isSwapped ? displayRightText : displayLeftText}</h3>
+        <p>{isSwapped ? displayRightDescription : displayLeftDescription}</p>
       </motion.div>
 
+      {/* Белая плашка — интерактивная область */}
       <motion.div
         className={styles.imageSection}
         layout
-        onMouseEnter={handleHover}
+        // Десктоп: hover переключает
+        onMouseEnter={() => {
+          if (!isMobile) toggleSwapped();
+        }}
+        // Мобилки и десктоп: клик/тап переключает
+        onClick={toggleSwapped}
+        // Предотвращаем 300ms delay и двойной триггер на iOS/Android
+        onTouchStart={(e) => {
+          e.preventDefault(); // ← важно!
+        }}
+        style={{
+          cursor: isMobile ? 'pointer' : 'default',
+          userSelect: 'none',
+        }}
+        whileTap={isMobile ? { scale: 0.95 } : {}}
       />
     </motion.div>
   );

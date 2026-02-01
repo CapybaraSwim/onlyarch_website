@@ -56,7 +56,7 @@
   gap: 20px;
   width: 100%;
   background: #fff;
-  padding: 0px 150px;
+  padding: 40px 150px 0px 150px;
 
   @include respond-to(mobile) {
     flex-direction: column;
@@ -119,21 +119,70 @@
   }
 }
 
+// Скрываем стрелки на мобилке через CSS (дублируем для надёжности)
+@include respond-to(mobile) {
+  .arrow {
+    display: none !important;
+  }
+}
+
 .sliderContainer {
   position: relative;
   width: 100%;
   overflow-x: hidden;
   height: 460px;
+    /* Полное скрытие scrollbar — кроссбраузерно */
+  -ms-overflow-style: none;  /* IE и Edge (устаревшие) */
+  scrollbar-width: none;     /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;           /* Chrome, Safari, Edge (Chromium) */
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent;
+  }
+
+  /* Дополнительно: убираем возможные отступы под scrollbar */
+  overflow: -moz-scrollbars-none; /* старый Firefox (редко нужно) */
 
   @include respond-to(mobile) {
     height: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
   }
 }
 
+// Десктопный слайдер (управляемый)
 .slider {
   display: flex;
   gap: 20px;
   width: max-content;
+}
+
+// Мобильный слайдер (нативный скролл)
+.sliderMobile {
+  display: flex;
+  gap: 20px;
+  padding: 100px 10px;
+  width: max-content;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 10px;
+
+  /* Полное скрытие scrollbar — кроссбраузерно */
+  -ms-overflow-style: none;  /* IE и Edge (устаревшие) */
+  scrollbar-width: none;     /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;           /* Chrome, Safari, Edge (Chromium) */
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent;
+  }
+
+  /* Дополнительно: убираем возможные отступы под scrollbar */
+  overflow: -moz-scrollbars-none; /* старый Firefox (редко нужно) */
 }
 
 .teamMember {
@@ -144,6 +193,11 @@
   flex-direction: column;
   justify-content: space-between;
   background: #fff;
+  flex: 0 0 auto; /* важно для scroll-snap */
+
+  @include respond-to(mobile) {
+    scroll-snap-align: start;
+  }
 
   .memberImage {
     width: 100%;
@@ -151,17 +205,6 @@
     object-fit: cover;
     object-position: top;
     flex: 1;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%);
-      pointer-events: none;
-    }
   }
 
   .memberInfo {

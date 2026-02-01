@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 const styles = require('./CostCalculation.module.scss');
 
@@ -43,6 +43,15 @@ const CostCalculation: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+
+  useEffect(() => {
+    const sectionTitle = document.querySelector(`.${styles.sectionTitle}`);
+    if (sectionTitle) {
+      sectionTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [step]);
 
    const services = [
     { id: 'interior', title: 'Дизайн интерьера', image: interiorImage },
@@ -168,7 +177,6 @@ const CostCalculation: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    // Подготовка данных для API
     const formData = {
       service: selectedService ? getSelectedTitle(selectedService, services) : null,
       area: selectedService === 'landscape' 
@@ -184,7 +192,6 @@ const CostCalculation: React.FC = () => {
     console.log('Данные для отправки:', formData);
     // Здесь будет вызов API: fetch('/api/calculate', { method: 'POST', body: JSON.stringify(formData) })
     
-    // Можно добавить успешное сообщение или редирект
   };
 
   return (
@@ -200,119 +207,91 @@ const CostCalculation: React.FC = () => {
                   key={service.id}
                   className={`${styles.option} ${selectedService === service.id ? styles.selected : ''}`}
                   onClick={() => handleServiceSelect(service.id)}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div className={styles.imageWrapper}>
                     <img src={service.image} alt={service.title} className={styles.optionImage} />
                     {selectedService === service.id && (
-                      <div className={styles.checkbox}>
-                        ✓
-                      </div>
+                      <div className={styles.checkbox}>✓</div>
                     )}
                   </div>
                   <p className={styles.optionTitle}>{service.title}</p>
                 </motion.div>
               ))}
             </div>
-            <motion.button
-              className={styles.nextButton}
-              onClick={handleNext}
-              disabled={!selectedService}
-              initial={{ opacity: 0.5 }}
-              animate={{
-                opacity: selectedService ? 1 : 0.5,
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              Далее
-            </motion.button>
+            <div className={styles.buttonGroup}>
+              <motion.button
+                className={styles.nextButton}
+                onClick={handleNext}
+                disabled={!selectedService}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Далее
+              </motion.button>
+            </div>
           </>
         )}
 
-         {step === 'step2' && (
-           <>
-             <h3 className={styles.stepTitle}>
-               {selectedService === 'landscape'
-                 ? 'Площадь участка (сотки)'
-                 : 'Площадь объекта (м²)'}
-             </h3>
-             <div className={styles.optionsGrid}>
-               {selectedService === 'landscape'
-                 ? landAreas.map((area) => (
-                     <motion.div
-                       key={area.id}
-                       className={`${styles.option} ${selectedLandArea === area.id ? styles.selected : ''}`}
-                       onClick={() => setSelectedLandArea(area.id)}
-                       initial={{ opacity: 0 }}
-                       animate={{ opacity: 1 }}
-                       transition={{ duration: 0.3 }}
-                     >
-                       <div className={styles.imageWrapper}>
-                         <img src={area.image} alt={area.title} className={styles.optionImage} />
-                         {selectedLandArea === area.id && (
-                           <div className={styles.checkbox}>
-                             ✓
-                           </div>
-                         )}
-                       </div>
-                       <p className={styles.optionTitle}>{area.title}</p>
-                     </motion.div>
-                   ))
-                 : areas.map((area) => (
-                     <motion.div
-                       key={area.id}
-                       className={`${styles.option} ${selectedArea === area.id ? styles.selected : ''}`}
-                       onClick={() => handleAreaSelect(area.id)}
-                       initial={{ opacity: 0 }}
-                       animate={{ opacity: 1 }}
-                       transition={{ duration: 0.3 }}
-                     >
-                       <div className={styles.imageWrapper}>
-                         <img src={area.image} alt={area.title} className={styles.optionImage} />
-                         {selectedArea === area.id && (
-                           <div className={styles.checkbox}>
-                             ✓
-                           </div>
-                         )}
-                       </div>
-                       <p className={styles.optionTitle}>{area.title}</p>
-                     </motion.div>
-                   ))}
-             </div>
-             <div className={styles.buttonsContainer}>
-               <motion.button
-                 className={styles.backButton}
-                 onClick={handleBack}
-                 initial={{ opacity: 0.5 }}
-                 animate={{ opacity: 1 }}
-                 transition={{ duration: 0.3 }}
-               >
-                 Назад
-               </motion.button>
-               <motion.button
-                 className={styles.nextButton}
-                 onClick={handleNext}
-                 disabled={
-                   (selectedService === 'landscape' && !selectedLandArea) ||
-                   (selectedService !== 'landscape' && !selectedArea)
-                 }
-                 initial={{ opacity: 0.5 }}
-                 animate={{
-                   opacity:
-                     (selectedService === 'landscape' && selectedLandArea) ||
-                     (selectedService !== 'landscape' && selectedArea)
-                       ? 1
-                       : 0.5,
-                 }}
-                 transition={{ duration: 0.3 }}
-               >
-                 Далее
-               </motion.button>
-             </div>
-           </>
-         )}
+        {step === 'step2' && (
+          <>
+            <h3 className={styles.stepTitle}>
+              {selectedService === 'landscape'
+                ? 'Площадь участка (сотки)'
+                : 'Площадь объекта (м²)'}
+            </h3>
+            <div className={styles.optionsGrid}>
+              {(selectedService === 'landscape' ? landAreas : areas).map((item) => (
+                <motion.div
+                  key={item.id}
+                  className={`${styles.option} ${(
+                    selectedService === 'landscape' ? selectedLandArea : selectedArea
+                  ) === item.id ? styles.selected : ''}`}
+                  onClick={() =>
+                    selectedService === 'landscape'
+                      ? setSelectedLandArea(item.id)
+                      : handleAreaSelect(item.id)
+                  }
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className={styles.imageWrapper}>
+                    <img src={item.image} alt={item.title} className={styles.optionImage} />
+                    {(
+                      selectedService === 'landscape' ? selectedLandArea : selectedArea
+                    ) === item.id && <div className={styles.checkbox}>✓</div>}
+                  </div>
+                  <p className={styles.optionTitle}>{item.title}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className={styles.buttonGroup}>
+              <motion.button
+                className={styles.backButton}
+                onClick={handleBack}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Назад
+              </motion.button>
+              <motion.button
+                className={styles.nextButton}
+                onClick={handleNext}
+                disabled={
+                  (selectedService === 'landscape' && !selectedLandArea) ||
+                  (selectedService !== 'landscape' && !selectedArea)
+                }
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Далее
+              </motion.button>
+            </div>
+          </>
+        )}
 
         {step === 'step3' && (
           <>
@@ -321,61 +300,47 @@ const CostCalculation: React.FC = () => {
                 ? 'Выберите стиль визуализации'
                 : 'Материал строительства'}
             </h3>
-              
-            {selectedService === 'visualization' ? (
-              <div className={styles.scrollableOptions}>
-                <div className={styles.optionsGridVisual}>
-                  {stylesList.map((style) => (
+            <div className={styles.optionsGrid}>
+              {selectedService === 'visualization'
+                ? stylesList.map((style) => (
                     <motion.div
                       key={style.id}
                       className={`${styles.option} ${selectedStyle === style.id ? styles.selected : ''}`}
                       onClick={() => setSelectedStyle(style.id)}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
                     >
                       <div className={styles.imageWrapper}>
                         <img src={style.image} alt={style.title} className={styles.optionImage} />
-                        {selectedStyle === style.id && (
-                          <div className={styles.checkbox}>
-                            ✓
-                          </div>
-                        )}
+                        {selectedStyle === style.id && <div className={styles.checkbox}>✓</div>}
                       </div>
                       <p className={styles.optionTitle}>{style.title}</p>
                     </motion.div>
+                  ))
+                : materials.map((material) => (
+                    <motion.div
+                      key={material.id}
+                      className={`${styles.option} ${selectedMaterial === material.id ? styles.selected : ''}`}
+                      onClick={() => setSelectedMaterial(material.id)}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className={styles.imageWrapper}>
+                        <img src={material.image} alt={material.title} className={styles.optionImage} />
+                        {selectedMaterial === material.id && <div className={styles.checkbox}>✓</div>}
+                      </div>
+                      <p className={styles.optionTitle}>{material.title}</p>
+                    </motion.div>
                   ))}
-                </div>
-              </div>
-            ) : (
-              <div className={styles.optionsGrid}>
-                {materials.map((material) => (
-                  <motion.div
-                    key={material.id}
-                    className={`${styles.option} ${selectedMaterial === material.id ? styles.selected : ''}`}
-                    onClick={() => setSelectedMaterial(material.id)}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className={styles.imageWrapper}>
-                      <img src={material.image} alt={material.title} className={styles.optionImage} />
-                      {selectedMaterial === material.id && (
-                        <div className={styles.checkbox}>
-                          ✓
-                        </div>
-                      )}
-                    </div>
-                    <p className={styles.optionTitle}>{material.title}</p>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            <div className={styles.buttonsContainer}>
+            </div>
+            <div className={styles.buttonGroup}>
               <motion.button
                 className={styles.backButton}
                 onClick={handleBack}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Назад
               </motion.button>
@@ -386,6 +351,8 @@ const CostCalculation: React.FC = () => {
                   (selectedService === 'visualization' && !selectedStyle) ||
                   (selectedService === 'architecture' && !selectedMaterial)
                 }
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 Далее
               </motion.button>
@@ -396,7 +363,7 @@ const CostCalculation: React.FC = () => {
         {step === 'step4' && (
           <>
             <h3 className={styles.stepTitle}>Мы свяжемся с вами и скажем цену</h3>
-
+        
             <div className={styles.userSelection}>
               <h4>Ваш выбор:</h4>
               <div className={styles.selectionRow}>
@@ -407,7 +374,7 @@ const CostCalculation: React.FC = () => {
                 )}
                 {(selectedArea || selectedLandArea) && (
                   <span className={styles.selectionItem}>
-                    <strong>Площадь:</strong> {selectedService === 'landscape' 
+                    <strong>Площадь:</strong> {selectedService === 'landscape'
                       ? getSelectedTitle(selectedLandArea, landAreas)
                       : getSelectedTitle(selectedArea, areas)}
                   </span>
@@ -424,40 +391,52 @@ const CostCalculation: React.FC = () => {
                 )}
               </div>
             </div>
-
+              
             <div className={styles.formContainer}>
               <div className={styles.formFields}>
                 <div className={styles.formGroup}>
-                  <input 
-                    type="text" 
-                    placeholder="Ваше Имя" 
+                  <input
+                    type="text"
+                    placeholder="Ваше Имя"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <input 
-                    type="email" 
-                    placeholder="Ваш E-mail" 
+                  <input
+                    type="email"
+                    placeholder="Ваш E-mail"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <input 
-                    type="tel" 
-                    placeholder="+7 (___) ___ __ __" 
+                  <input
+                    type="tel"
+                    placeholder="+7 (___) ___ __ __"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
-                <motion.button
-                  className={styles.submitButton}
-                  onClick={handleSubmit}
-                  disabled={!name || !isValidEmail(email) || !isValidPhone(phone)}
-                >
-                  Получить расчет
-                </motion.button>
+                <div className={styles.actionButtons}>
+                  <motion.button
+                    className={styles.backButton}
+                    onClick={handleBack}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Назад
+                  </motion.button>
+                  <motion.button
+                    className={styles.submitButton}
+                    onClick={handleSubmit}
+                    disabled={!name || !isValidEmail(email) || !isValidPhone(phone)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Получить расчет
+                  </motion.button>
+                </div>
                 <p className={styles.agreementText}>
                   Нажимая на кнопку "Получить расчет", я даю свое согласие на обработку персональных данных и принимаю условия соглашения
                 </p>

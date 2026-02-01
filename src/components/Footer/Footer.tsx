@@ -6,7 +6,6 @@ import whatsappIcon from '../../assets/icons/WhatsApp.png';
 import vkIcon from '../../assets/icons/vk.png';
 import logoIcon from '../../assets/icons/logo2.png';
 import phoneIcon from '../../assets/images/footer/phone.png';
-
 import closeIcon from '../../assets/images/footer/close.png';
 
 const Footer: React.FC = () => {
@@ -24,6 +23,7 @@ const Footer: React.FC = () => {
         <div className={styles.footerLogo}>
           <img src={logoIcon} alt="OnlyArch — дизайн интерьеров" />
         </div>
+
         <div className={styles.footerInfo}>
           <div className={styles.socialIcons}>
             <a href="https://t.me/OnlyArchOfficial" target="_blank" rel="noopener noreferrer">
@@ -41,9 +41,9 @@ const Footer: React.FC = () => {
               Об авторах
             </a>
             <a href="#privacy">Конфиденциальность</a>
-            <span></span>
           </div>
         </div>
+
         <div className={styles.footerContactInfo}>
           <div className={styles.contactItem}>
             <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" className={styles.contactIcon}>
@@ -63,6 +63,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+
       {isPopupOpen && (
         <div className={styles.popupOverlay} onClick={handleOverlayClick}>
           <div className={styles.popupContainer}>
@@ -85,8 +86,8 @@ const Footer: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.flaticon.com/ru/free-icons/" title=" иконки">
-                     иконки от Freepik - Flaticon
+                  <a href="https://www.flaticon.com/ru/free-icons/" title="иконки">
+                    иконки от Freepik - Flaticon
                   </a>
                 </li>
                 <li>

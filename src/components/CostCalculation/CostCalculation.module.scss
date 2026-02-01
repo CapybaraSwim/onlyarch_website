@@ -15,7 +15,7 @@
   font-size: 40px;
   font-weight: 500;
   text-align: center;
-  margin: 60px 0px;
+  margin: 60px 0 ;
   font-family: "Gilroy", sans-serif;
   color: #110F0E;
   background-color: #fff;
@@ -30,7 +30,7 @@
   position: relative;
   width: 800px;
   border: 1px #000000 solid;
-  height: 650px;
+  min-height: 650px;
   background-color: white;
   border-radius: 50px;
   overflow: hidden;
@@ -43,7 +43,7 @@
 
   @include respond-to(mobile) {
     width: 100%;
-    height: auto;
+    min-height: auto;
     padding: 30px;
   }
 }
@@ -51,7 +51,7 @@
 .stepTitle {
   font-size: 30px;
   font-weight: 500;
-  margin: 30px 0px 0px 0px;
+  margin: 30px 0 0;
   font-family: "Gilroy", sans-serif;
 
   @include respond-to(mobile) {
@@ -60,58 +60,51 @@
   }
 }
 
+// === Грид карточек (2×2 на десктопе, 1×N на мобилке) ===
 .optionsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 80px 0px;
+  gap: 24px;
   width: 100%;
   margin-bottom: 30px;
   justify-items: center;
 
   @include respond-to(mobile) {
     grid-template-columns: 1fr;
-    gap: 15px;
-  }
-}
-.optionsGridVisual{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 80px 100px;
-  width: 100%;
-  margin-bottom: 30px;
-  justify-items: center;
-
-  @include respond-to(mobile) {
-    grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 16px;
   }
 }
 
+// === Карточка ===
 .option {
   position: relative;
   width: 230px;
-  height: 130px;
-  border-radius: 10px;
+  height: 140px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 
   .imageWrapper {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 90px;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
 
     .optionImage {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: filter 0.3s ease;
-      border-radius: 30px;
+      transition: transform 0.3s ease;
     }
 
     .checkbox {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 8px;
+      right: 8px;
       width: 20px;
       height: 20px;
       background: white;
@@ -124,76 +117,94 @@
       font-weight: 600;
       color: #110F0E;
       z-index: 2;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
+  }
+
+  &:hover .optionImage {
+    transform: scale(1.02);
   }
 
   &.selected {
     .optionImage {
-      filter: brightness(0.5);
+      filter: brightness(0.7);
     }
+    box-shadow: 0 0 0 2px #110F0E, 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .optionTitle {
     font-family: 'Idealist Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 18px;
+    font-weight: 500;
     color: #110F0E;
     text-align: center;
-    margin-top: 5px;
-    z-index:5;
+    margin-top: 8px;
+    padding: 0 4px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+}
+
+// === Группа кнопок (для шагов 1–3) ===
+.buttonGroup {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  margin: 20px 0;
+
+  @include respond-to(mobile) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+// === Кнопки ===
+.nextButton,
+.backButton,
+.submitButton {
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: "Gilroy", sans-serif;
+  transition: all 0.3s ease;
+  min-width: 240px;
+
+  @include respond-to(mobile) {
+    padding: 12px 24px;
+    font-size: 14px;
+    min-width: 100%;
   }
 }
 
 .nextButton,
-.backButton {
-  padding: 12px 24px;
-  border-radius: 50px;
-  margin: 30px 40px 30px 30px;
-  border: none;
+.submitButton {
   background: linear-gradient(90deg, #000000 0%, #666666 100%);
   color: white;
-  font-size: 20px;
-  font-weight: 400;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-left: auto;
-  font-family: "Gilroy", sans-serif;
 
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
-  @include respond-to(mobile) {
-    padding: 10px 20px;
-    font-size: 14px;
-    align-self: stretch;
-    margin-left: 0;
-  }
 }
 
 .backButton {
-  background: linear-gradient(90deg, #000000 0%, #666666 100%);
-  color: white;
-  margin-left: 40px;
-}
+  background: #f5f5f5;
+  color: #110F0E;
+  border: 1px solid #e0e0e0;
 
-.buttonsContainer {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  justify-content: space-between;
-
-  @include respond-to(mobile) {
-    flex-direction: column;
-    gap: 15px;
+  &:hover {
+    background: #eaeaea;
   }
 }
 
+// === Форма (шаг 4) ===
 .formContainer {
   display: flex;
-  width: 800px;
-  height: 650px;
+  width: 100%;
   gap: 30px;
 
   @include respond-to(mobile) {
@@ -207,16 +218,16 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 0px 50px 0px 50px;
+  padding: 0;
+  padding-left: 20px;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 
   input {
-    max-width: 300px;
     padding: 10px 0;
     border: none;
     border-bottom: 1px solid #110F0E;
@@ -238,104 +249,88 @@
   }
 }
 
-.submitButton {
-  padding: 12px 24px;
-  max-width: 200px;
-  border: none;
-  background: linear-gradient(90deg, #000000 0%, #666666 100%);
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: none;
-  margin-top: 50px;
+// === Кнопки в форме (шаг 4) ===
+.actionButtons {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
 
   @include respond-to(mobile) {
-    padding: 10px 20px;
-    font-size: 14px;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 
 .agreementText {
-  font-size: 15px;
+  font-size: 13px;
   color: #000;
   font-family: "Idealist Sans", sans-serif;
   font-weight: 400;
   text-align: left;
-  margin-top: 20px;
-  max-width: 400px;
+  margin-top: 12px;
+  max-width: 100%;
 
   @include respond-to(mobile) {
     font-size: 12px;
-    max-width: 100%;
   }
 }
 
-.phoneImage{
-    max-width: 250px !important; 
-    height: 100%;
+.phoneImage {
+  max-width: 220px;
+  height: auto;
+  align-self: flex-start;
+
+  @include respond-to(mobile) {
+    display: none; 
+  }
 }
 
+// === Стиль для шага 3 (визуализация) — прокрутка ===
 .scrollableOptions {
-  max-height: 400px;
+  max-height: 320px;
   overflow-y: auto;
-  padding: 5px 0;
+  padding: 8px 0;
 
-  // Кастомный скроллбар
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f5f5f5;
-    border-radius: 10px;
+    background: #f9f9f9;
+    border-radius: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #c0c0c0;
-    border-radius: 10px;
-    transition: background 0.3s ease;
+    background: #d0d0d0;
+    border-radius: 6px;
   }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0;
-  }
-
-  // Для Firefox
   scrollbar-width: thin;
-  scrollbar-color: #c0c0c0 #f5f5f5;
-
-  // Убираем прокрутку, если контент помещается
-  &:not(:hover)::-webkit-scrollbar-thumb {
-    opacity: 0.5;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    opacity: 1;
-  }
+  scrollbar-color: #d0d0d0 #f9f9f9;
 }
 
 .userSelection {
   background-color: #f8f8f8;
-  padding: 15px 20px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 12px;
 
   h4 {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     color: #110F0E;
     font-weight: 600;
+    font-size: 16px;
   }
 
   .selectionRow {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
 
     .selectionItem {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       font-size: 14px;
       color: #333;
 

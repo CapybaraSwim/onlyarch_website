@@ -12,9 +12,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "framer-motion": "^12.23.22",
+    "framer-motion": "^12.29.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-responsive": "^10.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
@@ -25,13 +26,17 @@
     "@types/node": "^24.7.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/react-responsive": "^8.0.8",
+    "autoprefixer": "^10.4.23",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.4",
     "mini-css-extract-plugin": "^2.9.4",
+    "postcss": "^8.5.6",
     "sass": "^1.93.2",
     "sass-loader": "^16.0.5",
     "style-loader": "^4.0.0",
+    "tailwindcss": "^4.1.18",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
     "webpack": "^5.102.0",

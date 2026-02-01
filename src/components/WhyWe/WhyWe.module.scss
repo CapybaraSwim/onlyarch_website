@@ -67,7 +67,6 @@
   }
 }
 
-
 .image {
   flex: 0 0 30%;
   display: flex;
@@ -75,18 +74,22 @@
   justify-content: space-between;
 
   img {
-    width: 100%; // ширина = ширине контейнера
-    height: 100%; // высота = высоте контейнера
-    object-fit: cover; // обрезает края, чтобы заполнить всю область без деформации
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     object-position: center;
     border-radius: 0;
+
+    /* 👇 Уменьшаем высоту ТОЛЬКО на мобилках */
+    @include respond-to(mobile) {
+      height: 70%; /* ← чуть меньше, чем 100% */
+    }
 
     @include respond-to(tablet) {
       width: 100%;
       height: auto;
     }
   }
-
 
   .designerTitle {
     font-size: 1.5rem;
@@ -100,7 +103,7 @@
     margin-top: -1px;
     width: 100%;
     box-sizing: border-box;
-    margin-top:20px;
+    margin-top: 20px;
 
     @include respond-to(tablet) {
       font-size: 1.2rem;
@@ -119,42 +122,14 @@
   }
 }
 
-.designerTitle {
-  font-size: 1.5rem;
-  font-weight: 500;
-  font-family: 'Gilroy', $font-main;
-  color: #110F0E;
-  text-align: center;
-  padding: 1rem 0;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  margin-top: -1px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top:20px;
-
-  @include respond-to(tablet) {
-    font-size: 1.2rem;
-    padding: 0.8rem 0;
-  }
-
-  @include respond-to(mobile) {
-    font-size: 1rem;
-    padding: 0.6rem 0;
-  }
-
-  @include respond-to(320) {
-    font-size: 0.9rem;
-    padding: 0.5rem 0;
-  }
-}
+/* Дублирующий блок удалён — он уже есть внутри .image */
 
 .stats {
-  flex: 0 0 20%; // ширина фиксирована
+  flex: 0 0 20%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: transparent; // ← убираем фон, если нужен только внутри статов
+  background-color: transparent;
 
   .stat {
     background-color: #fff;
@@ -162,7 +137,9 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.25rem;
-    font-size: 1.27rem;
+
+    // Базовый размер — не задаём здесь, чтобы не конфликтовать с .label
+    // font-size: 1.27rem; ← УДАЛИТЬ
 
     &:last-child {
       margin-bottom: 0;
@@ -171,19 +148,13 @@
     @include respond-to(mobile) {
       gap: 0.5rem;
       margin-bottom: 1rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+      // Увеличиваем базовый шрифт для всего стата — чтобы label наследовал
+      font-size: 1.3rem; // ← ключевая строка!
     }
 
     @include respond-to(320) {
       gap: 0.5rem;
-      margin-bottom: 0.8rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
+      font-size: 1.2rem;
     }
   }
 
@@ -197,7 +168,6 @@
     font-family: "Idealist Sans", sans-serif;
     font-weight: 400;
     color: #110F0E;
-    border-radius: 0;
     border: 1px solid #110F0E;
     background-color: #F5F3F2;
 
@@ -221,27 +191,33 @@
   }
 
   .label {
-    font-size: 1rem;
+    // УБИРАЕМ фиксированный font-size!
+    // font-size: 1rem; ← УДАЛИТЬ
     color: #333;
     font-family: 'Idealist Sans', $font-main;
     font-weight: 400;
+    line-height: 1.4;
+    // Теперь шрифт будет наследоваться от .stat (1.3rem на мобилках)
+    // При необходимости можно добавить relative: 0.9em, но обычно достаточно наследования
 
     @include respond-to(tablet) {
       font-size: 0.9rem;
     }
 
+    // На мобилках — не переопределяем, чтобы наследовать от .stat
+    // Если нужно чуть больше — можно сделать:
     @include respond-to(mobile) {
-      font-size: 0.85rem;
+      font-size: 0.8em; // = 100% от родителя (.stat font-size: 1.3rem → 1.3rem)
     }
 
     @include respond-to(320) {
-      font-size: 0.8rem;
+      font-size: 0.8em; // ~1.15rem при base=1.2rem
     }
   }
 }
 
 .text {
-  flex: 1; // ← растягивается на оставшееся пространство
+  flex: 1;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -258,15 +234,16 @@
     letter-spacing: 0%;
 
     @include respond-to(tablet) {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
 
+    /* ✅ Увеличиваем текст НА МОБИЛКАХ */
     @include respond-to(mobile) {
-      font-size: 1rem;
+      font-size: 1.35rem; /* было 1rem → стало 1.25rem */
     }
 
     @include respond-to(320) {
-      font-size: 0.9rem;
+      font-size: 1.2rem; /* чуть меньше на самых маленьких */
     }
   }
 
@@ -284,12 +261,15 @@
       margin-bottom: 1.5rem;
     }
 
+    /* ✅ Увеличиваем параграф НА МОБИЛКАХ */
     @include respond-to(mobile) {
-      font-size: 0.85rem;
+      font-size: 1.05rem; /* было 0.85rem → стало 1.05rem */
+      margin-bottom: 1.2rem;
     }
 
     @include respond-to(320) {
-      font-size: 0.8rem;
+      font-size: 0.95rem; /* чуть меньше на 320px */
+      margin-bottom: 1rem;
     }
   }
 
@@ -306,12 +286,12 @@
     font-weight: 400;
 
     @include respond-to(mobile) {
-      font-size: 0.9rem;
+      font-size: 1rem; /* было 0.9rem → теперь 1rem */
       padding: 10px 20px;
     }
 
     @include respond-to(320) {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       padding: 10px 20px;
     }
   }
