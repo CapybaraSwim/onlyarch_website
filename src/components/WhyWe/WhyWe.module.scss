@@ -80,9 +80,8 @@
     object-position: center;
     border-radius: 0;
 
-    /* 👇 Уменьшаем высоту ТОЛЬКО на мобилках */
     @include respond-to(mobile) {
-      height: 70%; /* ← чуть меньше, чем 100% */
+      height: 70%;
     }
 
     @include respond-to(tablet) {
@@ -122,7 +121,6 @@
   }
 }
 
-/* Дублирующий блок удалён — он уже есть внутри .image */
 
 .stats {
   flex: 0 0 20%;
@@ -138,8 +136,6 @@
     gap: 1rem;
     margin-bottom: 1.25rem;
 
-    // Базовый размер — не задаём здесь, чтобы не конфликтовать с .label
-    // font-size: 1.27rem; ← УДАЛИТЬ
 
     &:last-child {
       margin-bottom: 0;
@@ -148,8 +144,7 @@
     @include respond-to(mobile) {
       gap: 0.5rem;
       margin-bottom: 1rem;
-      // Увеличиваем базовый шрифт для всего стата — чтобы label наследовал
-      font-size: 1.3rem; // ← ключевая строка!
+      font-size: 1.3rem;
     }
 
     @include respond-to(320) {
@@ -191,27 +186,22 @@
   }
 
   .label {
-    // УБИРАЕМ фиксированный font-size!
-    // font-size: 1rem; ← УДАЛИТЬ
     color: #333;
     font-family: 'Idealist Sans', $font-main;
     font-weight: 400;
     line-height: 1.4;
-    // Теперь шрифт будет наследоваться от .stat (1.3rem на мобилках)
-    // При необходимости можно добавить relative: 0.9em, но обычно достаточно наследования
 
     @include respond-to(tablet) {
       font-size: 0.9rem;
     }
 
-    // На мобилках — не переопределяем, чтобы наследовать от .stat
-    // Если нужно чуть больше — можно сделать:
+
     @include respond-to(mobile) {
-      font-size: 0.8em; // = 100% от родителя (.stat font-size: 1.3rem → 1.3rem)
+      font-size: 0.8em; 
     }
 
     @include respond-to(320) {
-      font-size: 0.8em; // ~1.15rem при base=1.2rem
+      font-size: 0.8em; 
     }
   }
 }
@@ -237,13 +227,12 @@
       font-size: 1.4rem;
     }
 
-    /* ✅ Увеличиваем текст НА МОБИЛКАХ */
     @include respond-to(mobile) {
-      font-size: 1.35rem; /* было 1rem → стало 1.25rem */
+      font-size: 1.35rem; 
     }
 
     @include respond-to(320) {
-      font-size: 1.2rem; /* чуть меньше на самых маленьких */
+      font-size: 1.2rem;
     }
   }
 
@@ -261,14 +250,13 @@
       margin-bottom: 1.5rem;
     }
 
-    /* ✅ Увеличиваем параграф НА МОБИЛКАХ */
     @include respond-to(mobile) {
-      font-size: 1.05rem; /* было 0.85rem → стало 1.05rem */
+      font-size: 1.05rem; 
       margin-bottom: 1.2rem;
     }
 
     @include respond-to(320) {
-      font-size: 0.95rem; /* чуть меньше на 320px */
+      font-size: 0.95rem; 
       margin-bottom: 1rem;
     }
   }
@@ -286,7 +274,7 @@
     font-weight: 400;
 
     @include respond-to(mobile) {
-      font-size: 1rem; /* было 0.9rem → теперь 1rem */
+      font-size: 1rem;
       padding: 10px 20px;
     }
 

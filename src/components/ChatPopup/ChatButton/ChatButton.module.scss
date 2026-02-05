@@ -15,10 +15,8 @@
   z-index: 2999;
   transition: transform 0.2s, background 0.2s;
 
-  /* Линейный градиент */
   background: linear-gradient(135deg, #86624C, #B28D74);
 
-  /* Тень — имитация Drop Shadow */
   box-shadow: 0 0 15px 1px #B28D74;
 
   &:hover {

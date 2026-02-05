@@ -11,12 +11,37 @@ interface ConsultationPopupProps {
   selectedTariff?: string | null;
 }
 
-const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, selectedTariff  }) => {
+const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, selectedTariff }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  useEffect(() => {
+    if (!isOpen) {
+      const resetTimer = setTimeout(() => {
+        setFormData({ name: '', email: '', phone: '' });
+        setErrors({ name: '', email: '', phone: '' });
+        setIsChecked(false);
+        setIsSubmitted(false);
+        setIsSubmitting(false);
+      }, 300); 
+      return () => clearTimeout(resetTimer);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -30,15 +55,57 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
     }
   }, [isOpen]);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: '' }));
+  };
+
+  const validate = () => {
+    let isValid = true;
+    const newErrors = {
+      name: '',
+      email: '',
+      phone: '',
+    };
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Укажите имя';
+      isValid = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Укажите email';
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Неверный формат email';
+      isValid = false;
+    }
+
+    const phoneRegex = /^\+7\s?\d{3}\s?\d{3}\s?\d{2}\s?\d{2}$/;
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Укажите телефон';
+      isValid = false;
+    } else if (!phoneRegex.test(formData.phone.replace(/\s+/g, ' ').trim())) {
+      newErrors.phone = 'Телефон должен начинаться с +7 и содержать 10 цифр';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,21 +115,24 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
       return;
     }
 
+    if (!validate()) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      
-      // Подготовка данных для API
+
       const submissionData = {
         ...formData,
         tariff: selectedTariff || null,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-      
+
       console.log('Данные для отправки:', submissionData);
-      
+
       const closeTimer = setTimeout(() => {
         onClose();
       }, 2000);
@@ -71,7 +141,7 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
     }, 500);
   };
 
-if (!shouldRender) return null;
+  if (!shouldRender) return null;
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -109,6 +179,7 @@ if (!shouldRender) return null;
                     onChange={handleChange}
                     disabled={isSubmitting || isSubmitted}
                   />
+                  {errors.name && <span className={styles.error}>{errors.name}</span>}
                 </div>
                 <div className={styles.formGroup}>
                   <input
@@ -119,6 +190,7 @@ if (!shouldRender) return null;
                     onChange={handleChange}
                     disabled={isSubmitting || isSubmitted}
                   />
+                  {errors.email && <span className={styles.error}>{errors.email}</span>}
                 </div>
                 <div className={styles.formGroup}>
                   <input
@@ -129,6 +201,7 @@ if (!shouldRender) return null;
                     onChange={handleChange}
                     disabled={isSubmitting || isSubmitted}
                   />
+                  {errors.phone && <span className={styles.error}>{errors.phone}</span>}
                 </div>
 
                 {!isSubmitted ? (
@@ -140,9 +213,7 @@ if (!shouldRender) return null;
                     {isSubmitting ? 'Отправка...' : 'Получить расчет'}
                   </button>
                 ) : (
-                  <div className={styles.successMessage}>
-                    Отправлено!
-                  </div>
+                  <div className={styles.successMessage}>Отправлено!</div>
                 )}
               </div>
               <div className={styles.phoneImage}>
@@ -160,7 +231,8 @@ if (!shouldRender) return null;
                 disabled={isSubmitting || isSubmitted}
               />
               <span>
-                Отправляя заявку, я даю свое согласие на обработку моих персональных данных в соответствии с политикой обработки персональных данных. Информация на сайте не является публичной офертой.
+                Отправляя заявку, я даю свое согласие на обработку моих персональных данных в соответствии с политикой
+                обработки персональных данных. Информация на сайте не является публичной офертой.
               </span>
             </label>
           </div>

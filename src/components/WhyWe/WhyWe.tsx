@@ -30,7 +30,7 @@ const WhyWe: React.FC<WhyWeProps> = ({ onOpenConsultation }) => {
             </div>
 
             <div className={styles.stat}>
-              <div className={styles.number}>160</div>
+              <div className={styles.number}>203</div>
               <div className={styles.label}>Проектов реализовано</div>
             </div>
 

@@ -80,7 +80,6 @@
   }
 }
 
-// Грид — на всю ширину, без отступов
 .gridContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

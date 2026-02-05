@@ -119,7 +119,6 @@
   }
 }
 
-// Скрываем стрелки на мобилке через CSS (дублируем для надёжности)
 @include respond-to(mobile) {
   .arrow {
     display: none !important;
@@ -131,19 +130,18 @@
   width: 100%;
   overflow-x: hidden;
   height: 460px;
-    /* Полное скрытие scrollbar — кроссбраузерно */
-  -ms-overflow-style: none;  /* IE и Edge (устаревшие) */
-  scrollbar-width: none;     /* Firefox */
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    display: none;           /* Chrome, Safari, Edge (Chromium) */
+    display: none;
     width: 0 !important;
     height: 0 !important;
     background: transparent;
   }
 
-  /* Дополнительно: убираем возможные отступы под scrollbar */
-  overflow: -moz-scrollbars-none; /* старый Firefox (редко нужно) */
+  overflow: -moz-scrollbars-none;
 
   @include respond-to(mobile) {
     height: auto;
@@ -154,14 +152,13 @@
   }
 }
 
-// Десктопный слайдер (управляемый)
 .slider {
   display: flex;
   gap: 20px;
   width: max-content;
+  will-change: transform; 
 }
 
-// Мобильный слайдер (нативный скролл)
 .sliderMobile {
   display: flex;
   gap: 20px;
@@ -170,19 +167,17 @@
   scroll-snap-type: x mandatory;
   scroll-padding-left: 10px;
 
-  /* Полное скрытие scrollbar — кроссбраузерно */
-  -ms-overflow-style: none;  /* IE и Edge (устаревшие) */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    display: none;           /* Chrome, Safari, Edge (Chromium) */
+    display: none;
     width: 0 !important;
     height: 0 !important;
     background: transparent;
   }
 
-  /* Дополнительно: убираем возможные отступы под scrollbar */
-  overflow: -moz-scrollbars-none; /* старый Firefox (редко нужно) */
+  overflow: -moz-scrollbars-none;
 }
 
 .teamMember {
@@ -193,7 +188,7 @@
   flex-direction: column;
   justify-content: space-between;
   background: #fff;
-  flex: 0 0 auto; /* важно для scroll-snap */
+  flex: 0 0 auto;
 
   @include respond-to(mobile) {
     scroll-snap-align: start;
@@ -204,7 +199,7 @@
     height: 100%;
     object-fit: cover;
     object-position: top;
-    flex: 1;
+    aspect-ratio: 1 / 1;
   }
 
   .memberInfo {
@@ -231,4 +226,16 @@
     color: #555;
     line-height: 1.3;
   }
+}
+
+.loadingPlaceholder {
+  width: 100%;
+  height: 460px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #777;
+  background: #f9f9f9;
+  border-radius: 8px;
 }

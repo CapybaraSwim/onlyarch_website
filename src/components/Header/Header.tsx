@@ -49,7 +49,14 @@ const Header: React.FC = () => {
         </div>
 
         <div className={styles.contactInfo}>
-          <span className={styles.phone}>+7 (989) 627-95-78</span>
+          <div className={styles.phoneContainer}>
+            <a href="tel:+79896279578" className={styles.phoneText}>
+              +7 (989) 627-95-78
+            </a>
+            <p><a href="tel:+79896279578" className={styles.phoneText}>
+              +7 (961) 309-34-79
+            </a></p>
+          </div>
           <div className={styles.icons}>
             <img src={tgIcon} alt="Telegram" />
             <img src={whatsappIcon} alt="WhatsApp" />
@@ -83,15 +90,19 @@ const Header: React.FC = () => {
               transition={{ duration: 0.4, ease: 'easeInOut' }}
             >
               <div className={styles.headerTop}>
-                <a href="tel:+79896279578" className={styles.phoneText}>
-                  +7 (989) 627-95-78
-                </a>
+                <div className={styles.phoneContainer}>
+                  <a href="tel:+79896279578" className={styles.phoneText}>
+                    +7 (989) 627-95-78
+                  </a>
+                  <p><a href="tel:+79896279578" className={styles.phoneText}>
+                    +7 (961) 309-34-79
+                  </a></p>
+                </div>
                 <button className={styles.close} onClick={() => setMenuOpen(false)}>
                   <img src={closeIcon} alt="Close" />
                 </button>
               </div>
 
-              {/* Иконки мессенджеров — с ссылками */}
               <div className={styles.socialIcons}>
                 <a href="https://t.me/your_telegram" target="_blank" rel="noopener noreferrer">
                   <img src={tgIcon} alt="Telegram" />

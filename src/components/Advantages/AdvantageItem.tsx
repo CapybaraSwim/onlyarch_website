@@ -35,7 +35,6 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const clickLockRef = useRef(false);
 
-  // Определяем, мобильное ли устройство
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 762);
@@ -45,18 +44,15 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Единая функция переключения с защитой от дублей
   const toggleSwapped = () => {
     if (clickLockRef.current) return;
     clickLockRef.current = true;
     setIsSwapped((prev) => !prev);
-    // Разблокируем через 300 мс (стандартная задержка touch → click)
     setTimeout(() => {
       clickLockRef.current = false;
     }, 300);
   };
 
-  // Тексты для отображения (мобильные или основные)
   const displayLeftText = isMobile && mobileLeftText ? mobileLeftText : leftText;
   const displayRightText = isMobile && mobileRightText ? mobileRightText : rightText;
   const displayLeftDescription = isMobile && mobileLeftDescription
@@ -76,7 +72,6 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
         damping: 10,
       }}
     >
-      {/* Фоновые градиенты */}
       <motion.div
         className={styles.bgLayer}
         animate={{ opacity: isSwapped ? 0 : 1 }}
@@ -90,7 +85,6 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
         style={{ background: rightGradient }}
       />
 
-      {/* Иконки */}
       <motion.img
         src={leftImage}
         alt={leftText}
@@ -114,7 +108,6 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
         }}
       />
 
-      {/* Текстовая секция */}
       <motion.div
         key={isSwapped ? 'swapped' : 'default'}
         className={styles.textSection}
@@ -127,19 +120,15 @@ const AdvantageItem: React.FC<AdvantageItemProps> = ({
         <p>{isSwapped ? displayRightDescription : displayLeftDescription}</p>
       </motion.div>
 
-      {/* Белая плашка — интерактивная область */}
       <motion.div
         className={styles.imageSection}
         layout
-        // Десктоп: hover переключает
         onMouseEnter={() => {
           if (!isMobile) toggleSwapped();
         }}
-        // Мобилки и десктоп: клик/тап переключает
         onClick={toggleSwapped}
-        // Предотвращаем 300ms delay и двойной триггер на iOS/Android
         onTouchStart={(e) => {
-          e.preventDefault(); // ← важно!
+          e.preventDefault();
         }}
         style={{
           cursor: isMobile ? 'pointer' : 'default',

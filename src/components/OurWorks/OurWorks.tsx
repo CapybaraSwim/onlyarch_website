@@ -3,15 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 const styles = require('./OurWorks.module.scss');
 
 // Жилые интерьеры
-import galaxy1 from '../../assets/images/projects/main/galaxy1.png';
+import galaxy1 from '../../assets/images/projects/main/galaxy1.jpg';
 import galaxy2 from '../../assets/images/projects/main/galaxy2.png';
-import galaxy3 from '../../assets/images/projects/main/galaxy3.png';
+import galaxy3 from '../../assets/images/projects/main/galaxy3.jpg';
 import polevaya from '../../assets/images/projects/main/polevaya.png';
 import marinagarden from '../../assets/images/projects/main/marinagarden.png';
-import galaxy4 from '../../assets/images/projects/main/galaxy4.png';
+import galaxy4 from '../../assets/images/projects/main/galaxy4.jpg';
 import residentialExtra from '../../assets/images/projects/main/residentialExtra.png';
 
-// Архитектурные проекты
 import arch1 from '../../assets/images/projects/arch/1.png';
 import arch2 from '../../assets/images/projects/arch/2.png';
 import arch3 from '../../assets/images/projects/arch/3.png';
@@ -33,12 +32,12 @@ const OurWorks: React.FC = () => {
   ];
 
   const residentialProjects = [
-    { image: galaxy1, title: 'ЖК "Галактика"', area: '' },
-    { image: galaxy2, title: 'ЖК "Галактика"', area: '' },
-    { image: galaxy3, title: 'ЖК "Галактика"', area: '' },
-    { image: polevaya, title: 'Дом "Полевая"', area: '' },
+    { image: galaxy1, title: 'ул. Тибетская 1В', area: '' },
+    { image: galaxy2, title: 'ЖК "ГАЛАКТИКА"', area: '' },
+    { image: galaxy3, title: 'ул. Тибетская 1В', area: '' },
+    { image: polevaya, title: 'г. Краснодар, ул. Полевая', area: '' },
     { image: marinagarden, title: 'ЖК "Марина-Гарден"', area: '' },
-    { image: galaxy4, title: 'ЖК "Галактика"', area: '' },
+    { image: galaxy4, title: 'ул. Тибетская 1В', area: '' },
     { image: residentialExtra, title: 'Жилой проект', area: '' },
   ];
 
@@ -81,7 +80,6 @@ const OurWorks: React.FC = () => {
     }
   }, [activeIndex]);
 
-  // Закрытие при клике вне меню
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -111,8 +109,6 @@ const OurWorks: React.FC = () => {
   return (
     <div id="portfolio" className={styles.container}>
       <h2 className={styles.sectionTitle}>НАШИ РАБОТЫ</h2>
-
-      {/* Мобильное выпадающее меню */}
       {isMobile ? (
         <div className={styles.mobileDropdownWrapper} ref={dropdownRef}>
           <button
@@ -170,7 +166,6 @@ const OurWorks: React.FC = () => {
           </AnimatePresence>
         </div>
       ) : (
-        // Десктопная версия
         <div className={styles.categoriesContainer}>
           <ul className={styles.categoriesList}>
             {categories.map((category, index) => (
@@ -189,7 +184,6 @@ const OurWorks: React.FC = () => {
         </div>
       )}
 
-      {/* Сетка проектов */}
       <div className={styles.gridContainer}>
         {currentProjects.map((project, index) => (
           <div key={index} className={styles.projectItem}>

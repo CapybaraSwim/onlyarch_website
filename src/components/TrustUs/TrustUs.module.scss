@@ -1,7 +1,7 @@
 @use '../../styles/variables.scss' as *;
 
 .trustUs {
-  padding: 4rem 2rem;
+  padding: 4rem 0rem;
   width: 100%;
   box-sizing: border-box;
 
@@ -29,6 +29,7 @@
 
 .reviewsSection {
   margin-bottom: 3rem;
+  margin: 0 2rem;
 
   .reviewsTitle {
     font-size: clamp(20px, 3vw, 40px);
@@ -186,11 +187,82 @@
     background-color: #fff;
     display: inline-block;
     padding: 0px 5px;
+    margin-left: 2rem;
 
     @include respond-to(mobile) {
       font-size: clamp(18px, 4vw, 22px);
       margin-bottom: 1rem;
     }
+  }
+}
+
+.partnersSection {
+  background-color: #fff;
+  padding: 2rem 0;
+  margin-top: 3rem;
+
+  .partnersTitle {
+    font-size: clamp(20px, 3vw, 40px);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #110F0E;
+    font-family: 'Gilroy', sans-serif;
+    display: inline-block;
+    padding: 0 8px;
+    background: #fff;
+
+    @include respond-to(mobile) {
+      font-size: clamp(18px, 4vw, 22px);
+      margin-bottom: 1rem;
+    }
+  }
+
+  .partnerStripContainer {
+    background-color: #fff;
+    overflow: hidden;
+    height: 80px;
+    margin-bottom: 24px;
+    position: relative;
+
+    .partnerStripTrack,
+    .partnerStripTrackReverse {
+      display: flex;
+      white-space: nowrap;
+      animation: scrollLeft 20s linear infinite;
+      width: max-content;
+    }
+
+    .partnerStripTrackReverse {
+      animation-name: scrollRight;
+      animation-duration: 25s;
+    }
+
+    .partnerLogo {
+      height: 50px;
+      object-fit: contain;
+      margin: 0 24px; 
+      flex-shrink: 0; 
+    }
+  }
+}
+
+/* Анимации */
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 
@@ -219,8 +291,8 @@
 }
 
 .partnerStripImage {
-  width: 1140px; /* ширина вашей полосы */
-  height: 53px;  /* высота вашей полосы */
+  width: 1140px;
+  height: 53px; 
   object-fit: contain;
   transition: filter 0.3s;
 

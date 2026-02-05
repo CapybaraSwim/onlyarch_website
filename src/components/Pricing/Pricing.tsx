@@ -104,7 +104,6 @@ const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
                 >
                   <span>{tariff.name}</span>
 
-                  {/* Иконка */}
                   {expanded[tariff.name] ? (
                     <motion.div
                       className={styles.minus}
@@ -171,7 +170,6 @@ const Pricing: React.FC<PricingProps> = ({ onOpenConsultation }) => {
         )}
       </AnimatePresence>
 
-      {/* === ДЕСКТОПНАЯ ВЕРСИЯ (старая структура) === */}
       {!isMobile && (
         <motion.div
           className={styles.pricingGrid}

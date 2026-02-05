@@ -10,11 +10,27 @@
   padding: 1rem 5%;
   background: $background-dark;
   color: $text-light;
+
+  .phoneContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+  }
+
+  .phoneText {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 
-/* Добавляем класс для контента, чтобы он не перекрывался хедером */
 .contentShift {
-  margin-top: 72px; /* Примерная высота хедера — можно рассчитать динамически */
+  margin-top: 72px; 
 }
 
 .nav,

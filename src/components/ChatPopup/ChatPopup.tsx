@@ -13,16 +13,14 @@ const ChatPopup: React.FC<ChatPopupProps> = ({ isOpen, onClose }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
 
-  // Управление монтированием
   useEffect(() => {
     if (isOpen) {
       setShouldRender(true);
-      // Небольшая задержка, чтобы элемент появился в DOM в скрытом состоянии
       const timer = setTimeout(() => setIsMounted(true), 10);
       return () => clearTimeout(timer);
     } else {
       setIsMounted(false);
-      const timer = setTimeout(() => setShouldRender(false), 300); // совпадает с длительностью transition
+      const timer = setTimeout(() => setShouldRender(false), 300); 
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
