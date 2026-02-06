@@ -15,9 +15,9 @@
   font-size: 40px;
   font-weight: 500;
   text-align: center;
-  margin: 60px 0 ;
-  font-family: "Gilroy", sans-serif;
-  color: #110F0E;
+  margin: 60px 0;
+  font-family: 'Gilroy', sans-serif;
+  color: #110f0e;
   background-color: #fff;
 
   @include respond-to(mobile) {
@@ -29,7 +29,7 @@
 .calculationBlock {
   position: relative;
   width: 800px;
-  border: 1px #000000 solid;
+  border: 1px #000 solid;
   min-height: 650px;
   background-color: white;
   border-radius: 50px;
@@ -38,25 +38,68 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 30px;
+  padding-top: 24px;
 
   @include respond-to(mobile) {
     width: 100%;
     min-height: auto;
     padding: 30px;
+    padding-top: 16px;
   }
 }
+
+.backArrowButton {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+  outline: none; 
+  appearance: none; 
+
+  &:focus,
+  &:hover,
+  &:active {
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  @include respond-to(mobile) {
+    top: 30px;
+    left: 16px;
+  }
+}
+
+.backArrowImage {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  display: block;
+  @include respond-to(mobile) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 
 .stepTitle {
   font-size: 30px;
   font-weight: 500;
-  margin: 30px 0 0;
-  font-family: "Gilroy", sans-serif;
+  margin: 0 0 60px 0;
+  font-family: 'Gilroy', sans-serif;
+  text-align: center;
 
   @include respond-to(mobile) {
     font-size: 20px;
     margin-bottom: 20px;
+    margin-top: 70px;
   }
 }
 
@@ -106,16 +149,16 @@
       width: 20px;
       height: 20px;
       background: white;
-      border: 2px solid #110F0E;
+      border: 2px solid #110f0e;
       display: flex;
       justify-content: center;
       align-items: center;
       border-radius: 2px;
       font-size: 14px;
       font-weight: 600;
-      color: #110F0E;
+      color: #110f0e;
       z-index: 2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -127,73 +170,19 @@
     .optionImage {
       filter: brightness(0.7);
     }
-    box-shadow: 0 0 0 2px #110F0E, 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 0 2px #110f0e, 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .optionTitle {
     font-family: 'Idealist Sans', sans-serif;
     font-size: 18px;
     font-weight: 500;
-    color: #110F0E;
+    color: #110f0e;
     text-align: center;
     margin-top: 8px;
     padding: 0 4px;
     line-height: 1.4;
     word-break: break-word;
-  }
-}
-
-.buttonGroup {
-  display: flex;
-  gap: 20px;
-  width: 100%;
-  justify-content: center;
-  margin: 20px 0;
-
-  @include respond-to(mobile) {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-.nextButton,
-.backButton,
-.submitButton {
-  padding: 14px 32px;
-  border-radius: 50px;
-  border: none;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: "Gilroy", sans-serif;
-  transition: all 0.3s ease;
-  min-width: 240px;
-
-  @include respond-to(mobile) {
-    padding: 12px 24px;
-    font-size: 14px;
-    min-width: 100%;
-  }
-}
-
-.nextButton,
-.submitButton {
-  background: linear-gradient(90deg, #000000 0%, #666666 100%);
-  color: white;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.backButton {
-  background: #f5f5f5;
-  color: #110F0E;
-  border: 1px solid #e0e0e0;
-
-  &:hover {
-    background: #eaeaea;
   }
 }
 
@@ -213,7 +202,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 0;
   padding-left: 20px;
 }
 
@@ -225,17 +213,17 @@
   input {
     padding: 10px 0;
     border: none;
-    border-bottom: 1px solid #110F0E;
+    border-bottom: 1px solid #110f0e;
     background: transparent;
     font-size: 16px;
     font-weight: 400;
     color: #000;
     outline: none;
     transition: border-bottom 0.3s ease;
-    font-family: "Idealist Sans", sans-serif;
+    font-family: 'Idealist Sans', sans-serif;
 
     &:focus {
-      border-bottom: 1px solid #110F0E;
+      border-bottom: 1px solid #110f0e;
     }
 
     @include respond-to(mobile) {
@@ -255,10 +243,35 @@
   }
 }
 
+.submitButton {
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Gilroy', sans-serif;
+  transition: all 0.3s ease;
+  min-width: 240px;
+  background: linear-gradient(90deg, #000 0%, #666 100%);
+  color: white;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @include respond-to(mobile) {
+    padding: 12px 24px;
+    font-size: 14px;
+    min-width: 100%;
+  }
+}
+
 .agreementText {
   font-size: 13px;
   color: #000;
-  font-family: "Idealist Sans", sans-serif;
+  font-family: 'Idealist Sans', sans-serif;
   font-weight: 400;
   text-align: left;
   margin-top: 12px;
@@ -275,41 +288,19 @@
   align-self: flex-start;
 
   @include respond-to(mobile) {
-    display: none; 
+    display: none;
   }
-}
-
-.scrollableOptions {
-  max-height: 320px;
-  overflow-y: auto;
-  padding: 8px 0;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f9f9f9;
-    border-radius: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #d0d0d0;
-    border-radius: 6px;
-  }
-
-  scrollbar-width: thin;
-  scrollbar-color: #d0d0d0 #f9f9f9;
 }
 
 .userSelection {
   background-color: #f8f8f8;
   padding: 16px;
   border-radius: 12px;
+  width: 100%;
 
   h4 {
     margin-bottom: 12px;
-    color: #110F0E;
+    color: #110f0e;
     font-weight: 600;
     font-size: 16px;
   }
@@ -328,7 +319,7 @@
       color: #333;
 
       strong {
-        color: #110F0E;
+        color: #110f0e;
         font-weight: 600;
       }
     }

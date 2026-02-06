@@ -57,11 +57,17 @@ const Header: React.FC = () => {
               +7 (961) 309-34-79
             </a></p>
           </div>
-          <div className={styles.icons}>
-            <img src={tgIcon} alt="Telegram" />
-            <img src={whatsappIcon} alt="WhatsApp" />
-            <img src={vkIcon} alt="VK" />
-          </div>
+              <div className={styles.icons}>
+                <a href="https://t.me/OnlyArchOfficial" target="_blank" rel="noopener noreferrer">
+                  <img src={tgIcon} alt="Telegram" />
+                </a>
+                <a href="https://wa.me/79613093479" target="_blank" rel="noopener noreferrer">
+                  <img src={whatsappIcon} alt="WhatsApp" />
+                </a>
+                <a href="https://vk.com/onlyarch" target="_blank" rel="noopener noreferrer">
+                  <img src={vkIcon} alt="VK" />
+                </a>
+              </div>
         </div>
 
         <button className={styles.burger} onClick={() => setMenuOpen(true)}>
@@ -104,13 +110,13 @@ const Header: React.FC = () => {
               </div>
 
               <div className={styles.socialIcons}>
-                <a href="https://t.me/your_telegram" target="_blank" rel="noopener noreferrer">
+                <a href="https://t.me/OnlyArchOfficial" target="_blank" rel="noopener noreferrer">
                   <img src={tgIcon} alt="Telegram" />
                 </a>
-                <a href="https://wa.me/79896279578" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/79613093479" target="_blank" rel="noopener noreferrer">
                   <img src={whatsappIcon} alt="WhatsApp" />
                 </a>
-                <a href="https://vk.com/your_vk_page" target="_blank" rel="noopener noreferrer">
+                <a href="https://vk.com/onlyarch" target="_blank" rel="noopener noreferrer">
                   <img src={vkIcon} alt="VK" />
                 </a>
               </div>

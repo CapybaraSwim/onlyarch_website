@@ -29,10 +29,10 @@ const Footer: React.FC = () => {
             <a href="https://t.me/OnlyArchOfficial" target="_blank" rel="noopener noreferrer">
               <img src={tgIcon} alt="Telegram" />
             </a>
-            <a href="https://wa.me/79896279578" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/79613093479" target="_blank" rel="noopener noreferrer">
               <img src={whatsappIcon} alt="WhatsApp" />
             </a>
-            <a href="https://vk.com/your_page" target="_blank" rel="noopener noreferrer">
+            <a href="https://vk.com/onlyarch" target="_blank" rel="noopener noreferrer">
               <img src={vkIcon} alt="VK" />
             </a>
           </div>
