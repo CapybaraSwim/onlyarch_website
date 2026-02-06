@@ -1,5 +1,6 @@
 import React from 'react';
-const styles = require('./MapBlock.module.scss');
+import styles from './MapBlock.module.scss';
+
 
 const MapBlock: React.FC = () => {
   return (

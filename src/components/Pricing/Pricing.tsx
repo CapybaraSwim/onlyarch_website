@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-const styles = require('./Pricing.module.scss');
+import styles from'./Pricing.module.scss';
 
 import planImage from '../../assets/images/pricing/plan.png';
 import technicalImage from '../../assets/images/pricing/technical.png';

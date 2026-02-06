@@ -17,7 +17,7 @@ import team10 from '../../assets/images/team/person10.jpg';
 import leftArrow from '../../assets/images/team/left.png';
 import rightArrow from '../../assets/images/team/right.png';
 
-const styles = require('./OurTeam.module.scss');
+import styles from'./OurTeam.module.scss';
 
 const OurTeam: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

@@ -1,6 +1,6 @@
 
 import React from 'react';
-const styles = require('./ChatButton.module.scss');
+import styles from'./ChatButton.module.scss';
 
 
 import chatIcon from '../../../assets/images/chat-icon.png';

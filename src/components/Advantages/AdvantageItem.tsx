@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-const styles = require('./Advantages.module.scss');
+import styles from'./Advantages.module.scss';
 
 interface AdvantageItemProps {
   leftText: string;

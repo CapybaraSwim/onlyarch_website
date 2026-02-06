@@ -1,9 +1,9 @@
 import React from 'react';
 import designerImg from '../../assets/images/team/person1.png';
 import emblemImg from '../../assets/images/whywe/emblem.png';
-import allImg from '../../assets/images/whywe/all.png';   
+import allImg from '../../assets/images/whywe/all.png';
 
-const styles = require('./WhyWe.module.scss');
+import styles from'./WhyWe.module.scss';
 
 interface WhyWeProps {
   onOpenConsultation: () => void;

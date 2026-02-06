@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-const styles = require('./ChatPopup.module.scss');
+import styles from'./ChatPopup.module.scss';
 
-import logoIcon from '../../assets/icons/logo2.png';
-import closeIcon from '../../assets/images/footer/close.png';
+import logoIcon from '../../assets/icons/logo2.png?react';
+import closeIcon from '../../assets/images/footer/close.png?react';
 
 interface ChatPopupProps {
   isOpen: boolean;

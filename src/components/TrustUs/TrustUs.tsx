@@ -1,5 +1,5 @@
 import React from 'react';
-const styles = require('./TrustUs.module.scss');
+import styles from'./TrustUs.module.scss';
 
 import reviewsData from '../../assets/data/reviews.json';
 

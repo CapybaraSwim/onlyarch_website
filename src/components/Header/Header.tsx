@@ -6,9 +6,9 @@ import whatsappIcon from '../../assets/icons/WhatsApp.png';
 import vkIcon from '../../assets/icons/vk.png';
 import logoIcon from '../../assets/icons/logo_header.png';
 import burgerIcon from '../../assets/icons/burger.png';  
-import closeIcon from '../../assets/icons/close.png';    
+import closeIcon from '../../assets/icons/close.png';
 
-const styles = require('./Header.module.scss');
+import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const styles = require('./Footer.module.scss');
+import styles from'./Footer.module.scss';
 
 import tgIcon from '../../assets/icons/telegram.png';
 import whatsappIcon from '../../assets/icons/WhatsApp.png';

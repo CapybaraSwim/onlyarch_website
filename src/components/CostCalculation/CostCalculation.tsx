@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-const styles = require('./CostCalculation.module.scss');
+import styles from'./CostCalculation.module.scss';
 
 import brickImage from '../../assets/images/cost-calculation/kirpich.jpg';
 import gasBlockImage from '../../assets/images/cost-calculation/gazoblock.jpg';

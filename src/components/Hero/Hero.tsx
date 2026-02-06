@@ -1,6 +1,6 @@
 import React from 'react';
 
-const styles = require('./Hero.module.scss');
+import styles from'./Hero.module.scss';
 import heroBg from '../../assets/images/hero/hero-bg.webp';
 
 interface HeroProps {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-const styles = require('./ConsultationPopup.module.scss');
+import styles from'./ConsultationPopup.module.scss';
 
 import logoIcon from '../../assets/icons/logo2.png';
 import closeIcon from '../../assets/images/footer/close.png';

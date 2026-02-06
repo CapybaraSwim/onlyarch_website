@@ -1,5 +1,5 @@
 import React from 'react';
-const styles = require('./Advantages.module.scss');
+import styles from'./Advantages.module.scss';
 
 import truckImage from '../../assets/images/advantages/truck.png';
 import allCycleImage from '../../assets/images/advantages/all-cycle.png';

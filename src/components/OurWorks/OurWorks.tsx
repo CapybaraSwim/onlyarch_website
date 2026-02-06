@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-const styles = require('./OurWorks.module.scss');
+import styles from'./OurWorks.module.scss';
 
 // Жилые интерьеры
 import galaxy1 from '../../assets/images/projects/main/galaxy1.jpg';
