@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from './CostCalculation.module.scss';
 
+// Изображения
 import brickImage from '../../assets/images/cost-calculation/kirpich.jpg';
 import gasBlockImage from '../../assets/images/cost-calculation/gazoblock.jpg';
 import metalFrameImage from '../../assets/images/cost-calculation/metal.jpg';
@@ -111,7 +112,10 @@ const CostCalculation: React.FC = () => {
       setStep('step4');
     } else {
       setSelectedArea(id);
-      if (selectedService === 'visualization') {
+      if (
+        selectedService === 'visualization' ||
+        selectedService === 'interior' 
+      ) {
         setStep('step3');
       } else if (selectedService === 'architecture') {
         setStep('step3');
@@ -122,7 +126,10 @@ const CostCalculation: React.FC = () => {
   };
 
   const handleMaterialOrStyleSelect = (id: string) => {
-    if (selectedService === 'visualization') {
+    if (
+      selectedService === 'visualization' ||
+      selectedService === 'interior' 
+    ) {
       setSelectedStyle(id);
       setStep('step4');
     } else if (selectedService === 'architecture') {
@@ -143,7 +150,10 @@ const CostCalculation: React.FC = () => {
       if (selectedService === 'architecture') {
         setStep('step3');
         setSelectedMaterial(null);
-      } else if (selectedService === 'visualization') {
+      } else if (
+        selectedService === 'visualization' ||
+        selectedService === 'interior'
+      ) {
         setStep('step3');
         setSelectedStyle(null);
       } else {
@@ -177,17 +187,20 @@ const CostCalculation: React.FC = () => {
       <h2 className={styles.sectionTitle}>РАСЧЕТ СТОИМОСТИ</h2>
       <div className={styles.calculationBlock}>
         {showBackArrow && (
-          <button
+          <motion.button
             className={styles.backArrowButton}
             onClick={handleBack}
             aria-label="Назад"
+            whileTap={{ scale: 0.92 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
           >
             <img
               src={backArrowImage}
               alt="Назад"
               className={styles.backArrowImage}
             />
-          </button>
+          </motion.button>
         )}
 
         {step === 'step1' && (
@@ -249,10 +262,12 @@ const CostCalculation: React.FC = () => {
         {step === 'step3' && (
           <>
             <h3 className={styles.stepTitle}>
-              {selectedService === 'visualization' ? 'Выберите стиль визуализации' : 'Материал строительства'}
+              {selectedService === 'visualization' || selectedService === 'interior'
+                ? 'Выберите стиль'
+                : 'Материал строительства'}
             </h3>
             <div className={styles.optionsGrid}>
-              {selectedService === 'visualization'
+              {selectedService === 'visualization' || selectedService === 'interior'
                 ? stylesList.map((style) => (
                     <motion.div
                       key={style.id}
