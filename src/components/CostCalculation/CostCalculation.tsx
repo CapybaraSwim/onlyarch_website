@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import styles from './CostCalculation.module.scss';
 
@@ -45,12 +45,20 @@ const CostCalculation: React.FC = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
+  const prevStepRef = useRef<'step1' | 'step2' | 'step3' | 'step4' | null>(null);
+
   useEffect(() => {
-    const sectionTitle = document.querySelector(`.${styles.sectionTitle}`);
-    if (sectionTitle) {
-      sectionTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    prevStepRef.current = step;
+  });
+
+  useEffect(() => {
+    if (prevStepRef.current !== null && step !== 'step1') {
+      const sectionTitle = document.querySelector(`.${styles.sectionTitle}`);
+      if (sectionTitle) {
+        sectionTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }, [step]);
 
@@ -114,7 +122,7 @@ const CostCalculation: React.FC = () => {
       setSelectedArea(id);
       if (
         selectedService === 'visualization' ||
-        selectedService === 'interior' 
+        selectedService === 'interior'
       ) {
         setStep('step3');
       } else if (selectedService === 'architecture') {
@@ -128,7 +136,7 @@ const CostCalculation: React.FC = () => {
   const handleMaterialOrStyleSelect = (id: string) => {
     if (
       selectedService === 'visualization' ||
-      selectedService === 'interior' 
+      selectedService === 'interior'
     ) {
       setSelectedStyle(id);
       setStep('step4');
