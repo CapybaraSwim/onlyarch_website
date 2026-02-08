@@ -47,8 +47,8 @@ const App: React.FC = () => {
       <MapBlock />
       <Footer />
 
-      <ChatButton onClick={() => setIsChatOpen(true)} />
-      <ChatPopup isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      {/*<ChatButton onClick={() => setIsChatOpen(true)} />*/}
+      {/*<ChatPopup isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />*/}
 
       <ConsultationPopup
         isOpen={isConsultationOpen}
