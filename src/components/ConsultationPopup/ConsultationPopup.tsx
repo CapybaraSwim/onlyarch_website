@@ -4,12 +4,14 @@ import styles from'./ConsultationPopup.module.scss';
 import logoIcon from '../../assets/icons/logo2.png';
 import closeIcon from '../../assets/images/footer/close.png';
 import phoneImage from '../../assets/images/popup.png';
+import Alert from "../Alert/Alert";
 
 interface ConsultationPopupProps {
   isOpen: boolean;
   onClose: () => void;
   selectedTariff?: string | null;
 }
+const API_URL = "/api/lead";
 
 const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, selectedTariff }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -17,6 +19,7 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
   const [isChecked, setIsChecked] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const [formData, setFormData] = useState({
     name: '',
@@ -38,6 +41,7 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
         setIsChecked(false);
         setIsSubmitted(false);
         setIsSubmitting(false);
+        setSubmitError("");
       }, 300); 
       return () => clearTimeout(resetTimer);
     }
@@ -108,38 +112,66 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isChecked) {
-      return;
-    }
+    if (!isChecked) return;
 
-    if (!validate()) {
-      return;
-    }
+    setSubmitError("");
+
+    if (!validate()) return;
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    try {
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
 
-      const submissionData = {
-        ...formData,
-        tariff: selectedTariff || null,
-        timestamp: new Date().toISOString(),
+        // Можно оставить пустым, но лучше сформировать понятный текст
+        comment: selectedTariff ? `Выбран тариф: ${selectedTariff}` : "",
+
+        page: window.location.href,
+        referrer: document.referrer || "",
+
+        // extra — любые доп поля (тариф, стиль, площадь и т.д.)
+        extra: {
+          tariff: selectedTariff || null,
+        },
       };
 
-      console.log('Данные для отправки:', submissionData);
+      const r = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-      const closeTimer = setTimeout(() => {
+      const data = await r.json().catch(() => ({}));
+
+      if (!r.ok || !data.ok) {
+        throw new Error(data.detail || "Не удалось отправить заявку");
+      }
+
+      setIsSubmitted(true);
+
+      // Закрываем попап через 2 сек
+      setTimeout(() => {
         onClose();
       }, 2000);
-
-      return () => clearTimeout(closeTimer);
-    }, 500);
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err?.message || "Ошибка отправки. Попробуйте позже.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  useEffect(() => {
+    if (!submitError) return;
+    const t = setTimeout(() => setSubmitError(""), 5000);
+    return () => clearTimeout(t);
+  }, [submitError]);
 
   if (!shouldRender) return null;
 
@@ -234,6 +266,10 @@ const ConsultationPopup: React.FC<ConsultationPopupProps> = ({ isOpen, onClose, 
                 Отправляя заявку, я даю свое согласие на обработку моих персональных данных в соответствии с политикой
                 обработки персональных данных. Информация на сайте не является публичной офертой.
               </span>
+              <Alert
+                  message={submitError}
+                  onClose={() => setSubmitError("")}
+              />
             </label>
           </div>
         </div>

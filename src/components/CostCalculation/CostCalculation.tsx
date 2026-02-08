@@ -40,6 +40,9 @@ const CostCalculation: React.FC = () => {
   const [selectedLandArea, setSelectedLandArea] = useState<string | null>(null);
   const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -61,6 +64,11 @@ const CostCalculation: React.FC = () => {
       }
     }
   }, [step]);
+  useEffect(() => {
+    if (!submitError) return;
+    const t = setTimeout(() => setSubmitError(""), 5000);
+    return () => clearTimeout(t);
+  }, [submitError]);
 
   const services = [
     { id: 'interior', title: 'Дизайн интерьера', image: interiorImage },
@@ -104,6 +112,7 @@ const CostCalculation: React.FC = () => {
 
   const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
   const isValidPhone = (phone: string) => phone.replace(/\D/g, '').length >= 10;
+  const API_URL = "/api/lead";
 
   const getSelectedTitle = (id: string | null, list: { id: string; title: string }[]) => {
     return list.find(item => item.id === id)?.title || '';
@@ -171,22 +180,117 @@ const CostCalculation: React.FC = () => {
       }
     }
   };
-
-  const handleSubmit = () => {
-    const formData = {
-      service: selectedService ? getSelectedTitle(selectedService, services) : null,
-      area: selectedService === 'landscape'
-        ? getSelectedTitle(selectedLandArea, landAreas)
-        : getSelectedTitle(selectedArea, areas),
-      material: selectedMaterial ? getSelectedTitle(selectedMaterial, materials) : null,
-      style: selectedStyle ? getSelectedTitle(selectedStyle, stylesList) : null,
-      name,
-      email,
-      phone,
-    };
-    console.log('Данные для отправки:', formData);
-    // fetch('/api/calculate', { method: 'POST', body: JSON.stringify(formData) })
+  const getUtm = () => {
+    const u = new URL(window.location.href);
+    const keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"] as const;
+    const out: Record<string, string> = {};
+    for (const k of keys) {
+      const v = u.searchParams.get(k);
+      if (v) out[k] = v;
+    }
+    return out;
   };
+
+  const handleSubmit = async () => {
+    setSubmitError("");
+    setIsSubmitted(false);
+
+    // защита от двойного клика
+    if (isSubmitting) return;
+
+    // быстрая проверка (у тебя disable уже стоит, но лучше подстраховаться)
+    if (!name || !isValidEmail(email) || !isValidPhone(phone)) {
+      setSubmitError("Проверьте имя, email и телефон");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const serviceTitle = selectedService ? getSelectedTitle(selectedService, services) : "";
+      const areaTitle =
+          selectedService === "landscape"
+              ? getSelectedTitle(selectedLandArea, landAreas)
+              : getSelectedTitle(selectedArea, areas);
+
+      const materialTitle = selectedMaterial ? getSelectedTitle(selectedMaterial, materials) : "";
+      const styleTitle = selectedStyle ? getSelectedTitle(selectedStyle, stylesList) : "";
+
+      // Формируем понятный комментарий для Битрикса
+      const commentLines = [
+        "Заявка на расчет стоимости",
+        serviceTitle ? `Услуга: ${serviceTitle}` : null,
+        areaTitle ? `Площадь: ${areaTitle}` : null,
+        materialTitle ? `Материал: ${materialTitle}` : null,
+        styleTitle ? `Стиль: ${styleTitle}` : null,
+      ].filter(Boolean);
+
+      const payload = {
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+
+        comment: commentLines.join("\n"),
+
+        page: window.location.href,
+        referrer: document.referrer || "",
+        ...getUtm(),
+
+        // extra — все “структурированные” поля (чтобы тоже сохранялись)
+        extra: {
+          service: serviceTitle || null,
+          area: areaTitle || null,
+          material: materialTitle || null,
+          style: styleTitle || null,
+
+          // можешь хранить и id, если нужно:
+          service_id: selectedService || null,
+          area_id: selectedService === "landscape" ? selectedLandArea : selectedArea,
+          material_id: selectedMaterial || null,
+          style_id: selectedStyle || null,
+
+          timestamp: new Date().toISOString(),
+        },
+      };
+
+      const r = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await r.json().catch(() => ({}));
+
+      if (!r.ok || !data.ok) {
+        throw new Error(data.detail || "Не удалось отправить заявку");
+      }
+
+      setIsSubmitted(true);
+
+      // по желанию: очистить поля
+      setName("");
+      setEmail("");
+      setPhone("");
+
+      // по желанию: вернуть в начало через 2 сек
+      setTimeout(() => {
+        setStep("step1");
+        setSelectedService(null);
+        setSelectedArea(null);
+        setSelectedLandArea(null);
+        setSelectedMaterial(null);
+        setSelectedStyle(null);
+        setIsSubmitted(false);
+      }, 2000);
+
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err?.message || "Ошибка отправки. Попробуйте позже.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
 
   const showBackArrow = step !== 'step1';
 
